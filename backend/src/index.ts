@@ -317,6 +317,110 @@ app.post('/api/webhooks/paystack', async (req, res) => {
   }
   res.sendStatus(200);
 });
+// --- 8. LANDLORD / SETTINGS ROUTES ---
+
+// Get Landlord Profile
+app.get('/api/landlord', authenticate, async (req: AuthRequest, res) => {
+  try {
+    const landlord = await prisma.landlord.findUnique({ where: { id: req.user!.id } });
+    res.json(landlord);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch profile' });
+  }
+});
+
+// Update Profile & Business Info
+app.put('/api/landlord', authenticate, async (req: AuthRequest, res) => {
+  const { 
+    name, phoneNumber, // Personal
+    businessName, tin, businessAddress, paybillNumber, bankDetails // Business
+  } = req.body;
+
+  try {
+    const updated = await prisma.landlord.update({
+      where: { id: req.user!.id },
+      data: {
+        name, phoneNumber,
+        businessName, tin, businessAddress, paybillNumber, bankDetails
+      }
+    });
+    res.json(updated);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update profile' });
+  }
+});
+
+// --- 9. BILLING ROUTES (Plan Upgrade) ---
+
+// Initialize Paystack Transaction for Plan Upgrade
+app.post('/api/billing/upgrade', authenticate, async (req: AuthRequest, res) => {
+  const { plan, amount } = req.body; // e.g. { plan: "Growth", amount: 1500 }
+  const email = req.user!.email;
+
+  try {
+    // 1. Initialize Paystack
+    const paystackResponse = await fetch('https://api.paystack.co/transaction/initialize', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email,
+        amount: amount * 100, // Convert to kobo/cents
+        metadata: {
+          landlordId: req.user!.id,
+          targetPlan: plan,
+          type: 'subscription_upgrade'
+        },
+        callback_url: 'http://localhost:5173/dashboard?payment=verify' // Redirect back to frontend
+      })
+    });
+
+    const data = await paystackResponse.json();
+    if (!data.status) throw new Error(data.message);
+
+    // Return the authorization URL to the frontend
+    res.json({ url: data.data.authorization_url, reference: data.data.reference });
+
+  } catch (error: any) {
+    console.error("Paystack Init Error:", error);
+    res.status(500).json({ error: error.message || 'Payment initialization failed' });
+  }
+});
+
+// Verify Transaction and Upgrade User
+app.post('/api/billing/verify', authenticate, async (req: AuthRequest, res) => {
+  const { reference } = req.body;
+
+  try {
+    // 1. Verify with Paystack
+    const verifyRes = await fetch(`https://api.paystack.co/transaction/verify/${reference}`, {
+      headers: { Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}` }
+    });
+    const data = await verifyRes.json();
+
+    if (data.status && data.data.status === 'success') {
+      const { targetPlan } = data.data.metadata;
+      
+      // 2. Update Database
+      const updatedLandlord = await prisma.landlord.update({
+        where: { id: req.user!.id },
+        data: {
+          plan: targetPlan,
+          planStatus: 'active',
+          planExpiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // +30 days
+        }
+      });
+      
+      res.json({ success: true, plan: updatedLandlord.plan });
+    } else {
+      res.status(400).json({ error: 'Payment verification failed' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Verification error' });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Backend running on port ${PORT}`);

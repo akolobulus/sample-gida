@@ -9,14 +9,28 @@ datasource db {
 }
 
 model Landlord {
-  id          String     @id 
-  email       String     @unique
-  name        String?
-  phoneNumber String?
-  properties  Property[]
-  tenants     Tenant[]
-  createdAt   DateTime   @default(now())
+  id              String     @id 
+  email           String     @unique
+  name            String?
+  phoneNumber     String?
+  
+  // Business Information
+  businessName    String?
+  tin             String?    // Tax Identification Number
+  businessAddress String?
+  paybillNumber   String?
+  bankDetails     String?    // e.g. "GTBank - 1234567890"
+
+  // Subscription Plan
+  plan            String     @default("Starter") // "Starter", "Growth", "Premium"
+  planStatus      String     @default("trial")   // "trial", "active", "expired"
+  planExpiresAt   DateTime?
+
+  properties      Property[]
+  tenants         Tenant[]
+  createdAt       DateTime   @default(now())
 }
+
 
 model Property {
   id          String        @id @default(uuid())
