@@ -34,47 +34,74 @@ const Hero: React.FC<HeroProps> = ({ onCtaClick }) => {
 
     // Animate title
     if (titleRef.current) {
-      gsap.from(titleRef.current.children, {
-        duration: 0.8,
-        y: 30,
-        opacity: 0,
-        stagger: 0.2,
-        ease: 'power2.out'
-      });
+      gsap.fromTo(titleRef.current.children, 
+        {
+          y: 30,
+          opacity: 0
+        },
+        {
+          duration: 0.8,
+          y: 0,
+          opacity: 1,
+          stagger: 0.2,
+          ease: 'power2.out',
+          clearProps: 'transform,opacity'
+        }
+      );
     }
 
     // Animate description
     if (descRef.current) {
-      gsap.from(descRef.current, {
-        delay: 0.3,
-        duration: 0.8,
-        y: 20,
-        opacity: 0,
-        ease: 'power2.out'
-      });
+      gsap.fromTo(descRef.current,
+        {
+          y: 20,
+          opacity: 0
+        },
+        {
+          delay: 0.3,
+          duration: 0.8,
+          y: 0,
+          opacity: 1,
+          ease: 'power2.out',
+          clearProps: 'transform,opacity'
+        }
+      );
     }
 
     // Animate buttons
     if (buttonsRef.current) {
-      gsap.from(buttonsRef.current.children, {
-        delay: 0.5,
-        duration: 0.6,
-        y: 20,
-        opacity: 0,
-        stagger: 0.15,
-        ease: 'power2.out'
-      });
+      gsap.fromTo(buttonsRef.current.children,
+        {
+          y: 20,
+          opacity: 0
+        },
+        {
+          delay: 0.5,
+          duration: 0.6,
+          y: 0,
+          opacity: 1,
+          stagger: 0.15,
+          ease: 'power2.out',
+          clearProps: 'transform,opacity'
+        }
+      );
     }
 
     // Animate checks
     if (checksRef.current) {
-      gsap.from(checksRef.current.children, {
-        delay: 0.7,
-        duration: 0.6,
-        opacity: 0,
-        stagger: 0.12,
-        ease: 'power2.out'
-      });
+      gsap.fromTo(checksRef.current.children,
+        {
+          opacity: 0
+        },
+        {
+          delay: 0.7,
+          duration: 0.6,
+          opacity: 1,
+          stagger: 0.12,
+          ease: 'power2.out',
+          clearProps: 'opacity'
+        }
+      );
     }
   }, []);
 

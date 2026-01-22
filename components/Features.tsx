@@ -17,17 +17,24 @@ const FeatureCard: React.FC<FeatureCardProps & { index: number }> = ({ icon, tit
   useEffect(() => {
     if (!cardRef.current) return;
 
-    gsap.from(cardRef.current, {
-      scrollTrigger: {
-        trigger: cardRef.current,
-        start: 'top 85%',
-        toggleActions: 'play none none none',
+    gsap.fromTo(cardRef.current,
+      {
+        y: 30,
+        opacity: 0
       },
-      duration: 0.6,
-      y: 30,
-      opacity: 0,
-      ease: 'power2.out'
-    });
+      {
+        scrollTrigger: {
+          trigger: cardRef.current,
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+        },
+        duration: 0.6,
+        y: 0,
+        opacity: 1,
+        ease: 'power2.out',
+        clearProps: 'transform,opacity'
+      }
+    );
 
     cardRef.current.addEventListener('mouseenter', () => {
       gsap.to(cardRef.current, {
@@ -93,17 +100,24 @@ const Features: React.FC = () => {
   useEffect(() => {
     if (!headingRef.current) return;
 
-    gsap.from(headingRef.current, {
-      scrollTrigger: {
-        trigger: headingRef.current,
-        start: 'top 80%',
-        toggleActions: 'play none none none',
+    gsap.fromTo(headingRef.current,
+      {
+        y: 30,
+        opacity: 0
       },
-      duration: 0.8,
-      y: 30,
-      opacity: 0,
-      ease: 'power2.out'
-    });
+      {
+        scrollTrigger: {
+          trigger: headingRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        },
+        duration: 0.8,
+        y: 0,
+        opacity: 1,
+        ease: 'power2.out',
+        clearProps: 'transform,opacity'
+      }
+    );
   }, []);
 
   return (

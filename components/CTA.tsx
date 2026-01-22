@@ -19,61 +19,89 @@ const CTA: React.FC<CTAProps> = ({ onCtaClick }) => {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    gsap.from(containerRef.current, {
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: 'top 70%',
-        toggleActions: 'play none none none',
+    gsap.fromTo(containerRef.current,
+      {
+        y: 40,
+        opacity: 0
       },
-      duration: 0.8,
-      y: 40,
-      opacity: 0,
-      ease: 'power2.out'
-    });
-
-    if (titleRef.current) {
-      gsap.from(titleRef.current, {
+      {
         scrollTrigger: {
-          trigger: titleRef.current,
+          trigger: containerRef.current,
           start: 'top 70%',
           toggleActions: 'play none none none',
         },
-        delay: 0.1,
         duration: 0.8,
-        y: 30,
-        opacity: 0,
-        ease: 'power2.out'
-      });
+        y: 0,
+        opacity: 1,
+        ease: 'power2.out',
+        clearProps: 'transform,opacity'
+      }
+    );
+
+    if (titleRef.current) {
+      gsap.fromTo(titleRef.current,
+        {
+          y: 30,
+          opacity: 0
+        },
+        {
+          scrollTrigger: {
+            trigger: titleRef.current,
+            start: 'top 70%',
+            toggleActions: 'play none none none',
+          },
+          delay: 0.1,
+          duration: 0.8,
+          y: 0,
+          opacity: 1,
+          ease: 'power2.out',
+          clearProps: 'transform,opacity'
+        }
+      );
     }
 
     if (descRef.current) {
-      gsap.from(descRef.current, {
-        scrollTrigger: {
-          trigger: descRef.current,
-          start: 'top 70%',
-          toggleActions: 'play none none none',
+      gsap.fromTo(descRef.current,
+        {
+          y: 20,
+          opacity: 0
         },
-        delay: 0.2,
-        duration: 0.8,
-        y: 20,
-        opacity: 0,
-        ease: 'power2.out'
-      });
+        {
+          scrollTrigger: {
+            trigger: descRef.current,
+            start: 'top 70%',
+            toggleActions: 'play none none none',
+          },
+          delay: 0.2,
+          duration: 0.8,
+          y: 0,
+          opacity: 1,
+          ease: 'power2.out',
+          clearProps: 'transform,opacity'
+        }
+      );
     }
 
     if (buttonRef.current) {
-      gsap.from(buttonRef.current, {
-        scrollTrigger: {
-          trigger: buttonRef.current,
-          start: 'top 70%',
-          toggleActions: 'play none none none',
+      gsap.fromTo(buttonRef.current,
+        {
+          y: 20,
+          opacity: 0
         },
-        delay: 0.3,
-        duration: 0.8,
-        y: 20,
-        opacity: 0,
-        ease: 'power2.out'
-      });
+        {
+          scrollTrigger: {
+            trigger: buttonRef.current,
+            start: 'top 70%',
+            toggleActions: 'play none none none',
+          },
+          delay: 0.3,
+          duration: 0.8,
+          y: 0,
+          opacity: 1,
+          ease: 'power2.out',
+          clearProps: 'transform,opacity'
+        }
+      );
 
       gsap.to(buttonRef.current, {
         scrollTrigger: {
