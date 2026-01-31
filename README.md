@@ -27,6 +27,12 @@ Here is a comprehensive **README.md** file for your project. You can copy and pa
 
 ---
 
+## 📌 Project Status
+
+GidaNa is currently under active development. Core property and tenant management features are functional, with ongoing improvements to reporting, notifications, and performance.
+
+---
+
 ## 🛠️ Tech Stack
 
 - **Frontend:** React (Vite), TypeScript
