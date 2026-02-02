@@ -1,5 +1,4 @@
-Here is a comprehensive **README.md** file for your project. You can copy and paste this directly into the root of your project folder.
-
+Here is a comprehensive **README.md** file for project GidaNa.
 ---
 
 # 🏠 GidaNa - Property Management System
@@ -24,6 +23,19 @@ Here is a comprehensive **README.md** file for your project. You can copy and pa
 - **Rent Payments:** Secure, real-time rent payments using **Paystack** (Card, Bank Transfer, USSD).
 - **Maintenance Requests:** Report issues (e.g., broken pipes) directly to the landlord with priority levels.
 - **Payment History:** View a complete history of all rent payments.
+
+---
+
+## 📌 Project Status
+
+GidaNa is currently under active development. Core property and tenant management features are functional, with ongoing improvements to reporting, notifications, and performance.
+While tailored for the Nigerian real estate ecosystem, GidaNa is designed with flexibility to support broader property management use cases.
+
+---
+
+## 🎯 Project Vision
+
+GidaNa aims to simplify property management across Nigeria by providing an affordable, transparent, and easy-to-use digital platform for both landlords and tenants.
 
 ---
 
