@@ -1,6 +1,3 @@
-Here is a comprehensive **README.md** file for project GidaNa.
----
-
 # 🏠 GidaNa - Property Management System
 
 **GidaNa** (Hausa for _"My House"_) is a modern, full-stack property management application designed specifically for the Nigerian real estate market. It bridges the gap between Landlords and Tenants, offering seamless rent collection via Paystack, maintenance tracking, and automated property management.
